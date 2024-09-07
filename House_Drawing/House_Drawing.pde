@@ -13,17 +13,64 @@ color orange = #FA9E60;
 color yellow = #F5DA43;
 color brown = #D8AB67;
 color darkGreen = #1EC925;
+color nightBlue = #2A2B67;
+color lightYellow = #F3F5C1;
+
+// ANIMATION VARIABLES
+float sunX, sunY;
+float moonX, moonY;
+boolean day;
 
 void setup() {
   size(800, 800);
+  
+  // initiate sun
+  sunX = -80;
+  sunY = 550;
+  
+  // initiate moon
+  moonX = -80;
+  moonY = 550;
+  
+  // boolean
+  day = true;
 }
 
 void draw() {
-  // sky
-  background(blue);
+  noStroke();
+  if(day == true) {
+    moonX = -80;
+    moonY = 550;
+    // sky
+    background(blue);
+  
+    // sun
+    fill(yellow);
+    circle(sunX, sunY, 150);
+    
+    // move sun
+    sunX += 2;
+    sunY -= 1.5;
+    if(sunY <= -140) day = false;
+  } else {
+    sunX = -80;
+    sunY = 550;
+    // sky
+    background(nightBlue);
+  
+    // moon
+    fill(lightYellow);
+    circle(moonX, moonY, 150);
+    fill(nightBlue);
+    circle(moonX+40, moonY-40, 150);
+    
+    // move moon
+    moonX += 2;
+    moonY -= 1.5;
+    if(moonY <= -140) day = true;
+  }
   
   // grass
-  noStroke();
   fill(green);
   rect(0, 500, 800, 300);
    
@@ -50,8 +97,4 @@ void draw() {
   // door
   fill(orange);
   rect(500, 550, 60, 100);
-  
-  // sun
-  fill(yellow);
-  circle(200, 200, 150);
 }
