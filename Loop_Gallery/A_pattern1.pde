@@ -1,5 +1,23 @@
 void pattern1() {
   background(pink);
+  noStroke();
+  fill(darkPink);
+  
+  float x = 10;
+  float y = height-10;
+  float d = 10;
+  
+  while(x <= width && y >= -100) {
+    circle(x, y, d);
+    x += 60;
+    if(x > width) {
+      x = 10;
+      y -= 60;
+      d += 5;
+    }
+  }
+  
+  // buttons
   leftButton();
   rightButton();
 }

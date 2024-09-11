@@ -13,8 +13,15 @@ color white = #FFFFFF;
 color lightGrey = #B7B7B7;
 color darkGrey = #3E3E3E;
 color pink = #F5D7D7;
+color darkPink = #DB048D;
 color lightBlue = #D7ECF5;
 color lightOrange = #F5DBB2;
+// PATTERN 2
+color blue1 = #012a4a;
+color blue2 = #01497c;
+color blue3 = #468faf;
+color blue4 = #89c2d9;
+color blue5 = #EAF5FF;
 
 void setup() {
   size(800, 800);
