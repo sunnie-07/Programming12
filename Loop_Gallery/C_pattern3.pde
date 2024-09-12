@@ -1,5 +1,27 @@
 void pattern3() {
-  background(lightOrange);
+  pushMatrix();
+  translate(width/2, height/2);
+  
+  noStroke();
+  int count = 1;
+  float sides = 800;
+  
+  while(sides >= 10) {
+    if(count % 2 == 0) {
+      fill(#d9ed92);
+      square(0, 0, sides);
+    } else if(count % 2 == 1) {
+      fill(#52b69a);
+      square(0, 0, sides);
+    }
+    count++;
+    rotate(radians(3.5));
+    sides -= 25;
+  }
+  
+  popMatrix();
+  
+  // buttons
   leftButton();
   rightButton();
 }

@@ -10,6 +10,7 @@ final int PATTERN3 = 2;
 
 // COLOR PALLETTE
 color white = #FFFFFF;
+color black = #000000;
 color lightGrey = #B7B7B7;
 color darkGrey = #3E3E3E;
 color pink = #F5D7D7;

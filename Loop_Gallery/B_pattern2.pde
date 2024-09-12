@@ -3,10 +3,10 @@ void pattern2() {
   float y = 0;
   int count = 1;
   
-  while(x <= width && y <= height+100) {
+  while(x <= width+100 && y <= height+100) {
     circles(x, y);
     x += 150;
-    if(x > width) {
+    if(x > width+100) {
       count ++;
       y += 40;
       if(count % 2 == 0) x = 75;

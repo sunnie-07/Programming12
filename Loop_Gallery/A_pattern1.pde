@@ -1,19 +1,19 @@
 void pattern1() {
-  background(pink);
+  background(#ffe5ec);
   noStroke();
-  fill(darkPink);
+  fill(#ff8fab);
   
-  float x = 10;
+  float x = 3;
   float y = height-10;
   float d = 10;
   
   while(x <= width && y >= -100) {
     circle(x, y, d);
-    x += 60;
+    x += 61;
     if(x > width) {
-      x = 10;
-      y -= 60;
-      d += 5;
+      x = 3;
+      y -= 61;
+      d += 5.3;
     }
   }
   

@@ -15,16 +15,16 @@ boolean OnCircle(float x, float y, float r) {
 
 void leftButton() {
   fill(white);
-  tactileCircle(60, height/2, 35);  
-  circle(60, height/2, 70);
-  line(45, height/2, 70, height/2-15);
-  line(45, height/2, 70, height/2+15);
+  tactileCircle(50, height/2, 30);  
+  circle(50, height/2, 60);
+  line(35, height/2, 60, height/2-15);
+  line(35, height/2, 60, height/2+15);
 }
 
 void rightButton() {
   fill(white);
-  tactileCircle(740, height/2, 35);  
-  circle(740, height/2, 70);
-  line(755, height/2, 730, height/2-15);
-  line(755, height/2, 730, height/2+15);
+  tactileCircle(750, height/2, 30);  
+  circle(750, height/2, 60);
+  line(765, height/2, 740, height/2-15);
+  line(765, height/2, 740, height/2+15);
 }
