@@ -15,13 +15,42 @@ color orange = #F5AE34;
 color white = #FFFFFF;
 color beige = #f8dda4;
 color black = #000000;
+color red = #FA6560;
+color blue = #60AEFA;
+color grey = #555555;
+
+// WRESTLER VARIABLES
+float redX, blueX;
+float redArm1, redArm2;
+float blueArm1, blueArm2;
+
+// SCORE VARIABLES
+int redScore, blueScore;
+
+// KEYBOARD VARIABLES
+boolean akey, lkey;
+int redTimer, blueTimer;
 
 void setup() {
-  size(800, 600);
+  size(1000, 600);
   textAlign(CENTER, CENTER);
   imageMode(CENTER);
   rectMode(CENTER);
   mode = GAME;
+  
+  // initiate variables
+  // red wrestler
+  redX = width/2-185;
+  redArm1 = redArm2 = 14;
+  redTimer = 3;
+  
+  // blue wrestler
+  blueX = width/2+185;
+  blueArm1 = blueArm2 = -14;
+  blueTimer = 5;
+  
+  // scores
+  redScore = blueScore = 0;
 }
 
 void draw() {
