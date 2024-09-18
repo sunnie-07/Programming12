@@ -14,12 +14,12 @@ void keyReleased() {
   // red wrestler
   if(key == 'a' || key == 'A') {
     akey = false;
-    redTimer = 5;
+    redTimer = 3;
   }
   
   // blue wrestler
   if(key == 'l' || key == 'L') {
     lkey = false;
-    blueTimer = 5;
+    blueTimer = 3;
   }
 }

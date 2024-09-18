@@ -31,12 +31,15 @@ int redScore, blueScore;
 boolean akey, lkey;
 int redTimer, blueTimer;
 
+// TEXT VARIABLES
+PFont candyBeans;
+
 void setup() {
   size(1000, 600);
   textAlign(CENTER, CENTER);
   imageMode(CENTER);
   rectMode(CENTER);
-  mode = GAME;
+  mode = INTRO;
   
   // initiate variables
   // red wrestler
@@ -47,10 +50,13 @@ void setup() {
   // blue wrestler
   blueX = width/2+185;
   blueArm1 = blueArm2 = -14;
-  blueTimer = 5;
+  blueTimer = 3;
   
   // scores
   redScore = blueScore = 0;
+  
+  // text
+  candyBeans = createFont("CandyBeans.otf", 100);
 }
 
 void draw() {
