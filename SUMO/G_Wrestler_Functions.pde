@@ -62,6 +62,15 @@ void moveRedWrestler() {
       akey = false;
     }
   }
+  
+  // collision
+  if(collide() && akey == true && redTimer > 0) {
+     blueX = redX + 150;
+  }
+  
+  if(redX > blueX - 140) {
+    redX = blueX - 140;
+  }
 }
 
 void blueWrestler(float x) {
@@ -127,5 +136,13 @@ void moveBlueWrestler() {
     if(blueTimer <= 0) {
       lkey = false;
     }
+  }
+  
+  if(collide() && lkey == true && blueTimer > 0) {
+    redX = blueX - 150;
+  }
+  
+  if(blueX < redX + 140) {
+    blueX = redX + 140;
   }
 }

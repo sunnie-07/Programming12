@@ -3,7 +3,7 @@ void instructions() {
   background(lightOrange);
   
   // instructions
-  shadowText("INSTRUCTIONS", width/2, 47, 78, orange, grey);
+  shadowText("GAME RULES", width/2, 47, 78, orange, grey);
   shadowText("TEAM: PRESS 'A' TO ADVANCE", width/2+36, 190, 40, orange, grey);
   shadowText("RED", width/2-244, 190, 40, red, grey);
   shadowText("TEAM: PRESS 'L' TO ADVANCE", width/2+45, 245, 40, orange, grey);

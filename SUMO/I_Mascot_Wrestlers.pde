@@ -51,7 +51,7 @@ void mascotRedWrestler() {
 
 void mascotBlueWrestler() {
   pushMatrix();
-  translate(width-158, 303);
+  translate(width-158, 305);
   rotate(radians(-90));
   
   // body
