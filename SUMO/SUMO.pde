@@ -8,6 +8,8 @@ final int INTRO = 0;
 final int INSTRUCTIONS = 1;
 final int GAME = 2;
 final int GAMEOVER = 3;
+final int PAUSE = 4;
+final int COUNTDOWN = 5;
 
 // COLOR PALETTE
 color lightOrange = #ffd166;
@@ -23,9 +25,13 @@ color grey = #555555;
 float redX, blueX;
 float redArm1, redArm2;
 float blueArm1, blueArm2;
+float angle;
 
 // SCORE VARIABLES
+float gameStart, countdown;
+float scoreTimer;
 int redScore, blueScore;
+int numRounds;
 
 // KEYBOARD VARIABLES
 boolean akey, lkey;
@@ -42,18 +48,7 @@ void setup() {
   mode = INTRO;
   
   // initiate variables
-  // red wrestler
-  redX = width/2-185;
-  redArm1 = redArm2 = 14;
-  redTimer = 3;
-  
-  // blue wrestler
-  blueX = width/2+185;
-  blueArm1 = blueArm2 = -14;
-  blueTimer = 3;
-  
-  // scores
-  redScore = blueScore = 0;
+  reset();
   
   // text
   candyBeans = createFont("CandyBeans.otf", 100);
@@ -68,6 +63,10 @@ void draw() {
     game();
   } else if (mode == GAMEOVER) {
     gameover();
+  } else if (mode == PAUSE) {
+    pause();
+  } else if (mode == COUNTDOWN) {
+    countdown();
   } else {
     println("Error: Mode = " + mode);
   }
