@@ -39,11 +39,11 @@ void game() {
   moveBlueWrestler();
   
   // winning
-  if(blueX >= width/2+345) {
+  if(blueX >= width/2+340) {
     redScore ++;
     numRounds --;
     mode = PAUSE;
-  } else if(redX <= width/2-345) {
+  } else if(redX <= width/2-340) {
     blueScore ++;
     numRounds --;
     mode = PAUSE;

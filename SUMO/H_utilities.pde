@@ -31,12 +31,10 @@ void collisionEffects(float x, float y) {
 void reset() {
   // red wrestler
   redX = width/2-170;
-  redArm1 = redArm2 = 14;
   redTimer = 2;
   
   // blue wrestler
   blueX = width/2+170;
-  blueArm1 = blueArm2 = -14;
   blueTimer = 2;
   
   // scores

@@ -14,8 +14,8 @@ void redWrestler(float x) {
   circle(0, 0, 135);
   
   // arms
-  ellipse(redArm1, -61, 90, 32);
-  ellipse(redArm2, 61, 90, 32);
+  ellipse(14, -61, 90, 32);
+  ellipse(14, 61, 90, 32);
   
   // head
   circle(-50, 0, 110);
@@ -90,8 +90,8 @@ void blueWrestler(float x) {
   circle(0, 0, 135);
   
   // arms
-  ellipse(blueArm1, -61, 90, 32);
-  ellipse(blueArm2, 61, 90, 32);
+  ellipse(-14, -61, 90, 32);
+  ellipse(-14, 61, 90, 32);
   
   // head
   circle(50, 0, 110);
