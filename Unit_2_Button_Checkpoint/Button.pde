@@ -19,9 +19,19 @@ class Button {
   
   // behaviour functions
   void show() {
+    drawRect();
+    drawLabel();
+    checkForClick();
+  }
+  
+  boolean onRect() {
+    return (mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2);
+  }
+  
+  void drawRect() {
     // rectangle
     rectMode(CENTER);
-    if(mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2) {
+    if(onRect()) {
       fill(highlight); 
     } else {
       fill(normal); 
@@ -29,15 +39,25 @@ class Button {
     stroke(0);
     strokeWeight(3);
     rect(x, y, w, h, 20);
-    
+  }
+  
+  void drawLabel() {
     // text label
     textAlign(CENTER, CENTER);
-    if(mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2) {
+    if(onRect()) {
       fill(normal); 
     } else {
       fill(highlight); 
     }
     textSize(w/4);
     text(text, x, y);
+  }
+  
+  void checkForClick() {
+    if(mouseReleased && onRect()) {
+      clicked = true;
+    } else {
+      clicked = false; 
+    }
   }
 }
