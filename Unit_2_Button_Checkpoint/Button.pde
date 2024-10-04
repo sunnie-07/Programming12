@@ -4,8 +4,9 @@ class Button {
   boolean clicked;
   color highlight, normal;
   String text;
+  PImage image;
   
-  // constructor
+  // constructors
   Button(String t, int _x, int _y, int _w, int _h, color norm, color high) {
     x = _x;
     y = _y;
@@ -17,13 +18,31 @@ class Button {
     clicked = false;
   }
   
+  Button(PImage img, int _x, int _y, int _w, int _h, color norm, color high) {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
+    image = img;
+    highlight = high;
+    normal = norm;
+    clicked = false;
+  }
+  
   // behaviour functions
-  void show() {
+  void showWithText() {
     drawRect();
     drawLabel();
     checkForClick();
   }
   
+  void showWithImage() {
+    drawRect();
+    drawImage();
+    checkForClick();
+  }
+  
+  // components of the behaviour functions
   boolean onRect() {
     return (mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2);
   }
@@ -36,7 +55,7 @@ class Button {
     } else {
       fill(normal); 
     }
-    stroke(0);
+    stroke(120);
     strokeWeight(3);
     rect(x, y, w, h, 20);
   }
@@ -51,6 +70,12 @@ class Button {
     }
     textSize(w/4);
     text(text, x, y);
+  }
+  
+  void drawImage() {
+    // image label
+    imageMode(CENTER);
+    image(image, x, y, h*0.8, h*0.8);
   }
   
   void checkForClick() {
