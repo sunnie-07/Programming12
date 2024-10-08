@@ -3,7 +3,7 @@
 // Oct 7, 2024
 
 // MOVERS
-Mover[] movers;
+ArrayList<Mover> movers;
 int numOfMovers = 50;
 
 // COLOR VARIABLES
@@ -11,18 +11,20 @@ color blue = #3C62CE;
 
 void setup() {
   size(800, 800);
-  movers = new Mover[numOfMovers]; // instantiate array
+  movers = new ArrayList(); // instantiate ArrayList
   
   for(int i = 0; i < numOfMovers; i++) {
-    movers[i] = new Mover(); // calling the constructor
+    movers.add(new Mover()); // calling the constructor
+                             // adding movers to the end of the list
   }
 }
 
 void draw() {
   background(blue);
   for(int i = 0; i < numOfMovers; i++) {
-    movers[i].act();
-    movers[i].showBody();
-    movers[i].showConnections();
+    Mover m = movers.get(i); // getting the mover out at index i (temporary)
+    m.act();
+    m.showBody();
+    m.showConnections();
   }
 }

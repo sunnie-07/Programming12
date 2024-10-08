@@ -1,16 +1,16 @@
 class Mover {
   // instance variables
-  float x, y; // location
-  float vx, vy; // velocity
+  PVector loc; // location
+  PVector vel; // velocity
   float d; // diameter
   
   // constructor
   Mover() {
     d = 100;
-    x = random(0, width);
-    y = random(0, height);
-    vx = random(-1, 1);
-    vy = random(-1, 1);
+    loc = new PVector(random(0, width), random(0, height)); // (x, y) component of location
+    vel = new PVector(1, 0); // (vx, vy) component of velocity
+    vel.setMag(random(1, 3)); // sets magnitude of velocity
+    vel.rotate(radians(random(0, 360))); // randomize the direction while keeping velocity the same
   }
   
   // behaviour functions
@@ -21,30 +21,30 @@ class Mover {
   }
   
   void move() {
-    x += vx;
-    y += vy;
+    loc.add(vel); // equivalent to x += vx and y += vy
   }
   
   void bounceOffEdge() {
-    if(x < 0 || x > width) vx = -vx;
-    if(y < 0 || y > height) vy = -vy;
+    if(loc.x < 0 || loc.x > width) vel.x = -vel.x; // access x component of PVector
+    if(loc.y < 0 || loc.y > height) vel.y = -vel.y; // access y component of PVector
   }
   
   // show functions
   void showBody() {
     noStroke();
     fill(255, 50);
-    circle(x, y, d);
+    circle(loc.x, loc.y, d);
   }
   
   void showConnections() {
     for(int i = 0; i < numOfMovers; i++) {
-      float dist = dist(x, y, movers[i].x, movers[i].y);
+      Mover other = movers.get(i); // temporary mover
+      float dist = dist(loc.x, loc.y, other.loc.x, other.loc.y);
       if(dist <= 200) {
         float a = map(dist, 0, 200, 255, 0);
         stroke(255, a);
         strokeWeight(2);
-        line(x, y, movers[i].x, movers[i].y);
+        line(loc.x, loc.y, other.loc.x, other.loc.y);
       }
     }
   }
