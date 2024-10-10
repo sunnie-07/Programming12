@@ -13,11 +13,13 @@ color yellow = color(242, 215, 16);
 
 //assets
 PImage redBird;
+PImage grass;
 
 FPoly topPlatform; 
 FPoly bottomPlatform;
 
-float cloudX;
+float cloudX1;
+float cloudX2;
 
 //fisica
 FWorld world;
@@ -28,7 +30,8 @@ void setup() {
   
   //load resources
   redBird = loadImage("red-bird.png");
-
+  grass = loadImage("grassBlock.png");
+  
   //initialise world
   makeWorld();
 
@@ -37,7 +40,8 @@ void setup() {
   makeBottomPlatform();
   
   // initialize cloud variables
-  cloudX = -200;
+  cloudX1 = -200;
+  cloudX2 = -200;
 }
 
 //===========================================================================================
@@ -108,25 +112,18 @@ void draw() {
     
   world.step();  //get box2D to calculate all the forces and new positions
   
-  makeCloud(200);
+  noStroke();
+  ellipse(cloudX1, 200, 140, 85);
+  cloudX1 += 2.5;
+  if(cloudX1 > width + 200) cloudX1 = -200;
   
   world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
   
-  makeCloud(400);
+  ellipse(cloudX2, 400, 160, 100);
+  cloudX2 += 4;
+  if(cloudX2 > width + 200) cloudX2 = -200;
 }
 
-
-//===========================================================================================
-
-void makeCloud(float y) {
-  noStroke();
-  fill(255);
-  ellipse(cloudX, y, 150, 90);
-  while(cloudX < width + 200) {
-    cloudX ++;
-    if(cloudX > width + 200) cloudX = -200;
-  }
-}
 
 //===========================================================================================
 
@@ -171,13 +168,11 @@ void makeBlob() {
 //===========================================================================================
 
 void makeBox() {
-  FBox box = new FBox(25, 100);
-  box.setPosition(random(width), -5);
-
+  FBlob box = new FBlob();
+  box.setAsCircle(random(width), -5, 60, 4);
+  
   //set visuals
-  box.setStroke(0);
-  box.setStrokeWeight(2);
-  box.setFillColor(green);
+  //box.attachImage(grass);
 
   //set physical properties
   box.setDensity(0.2);
