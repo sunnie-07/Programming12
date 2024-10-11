@@ -11,9 +11,15 @@ color green  = color(74, 163, 57);
 color red    = color(224, 80, 61);
 color yellow = color(242, 215, 16);
 
+// BUTTON VARIABLES
+Button gravityBtn;
+Button FBodyBtn;
+int gravity;
+boolean makeFBodies;
+
 //assets
 PImage redBird;
-PImage grass;
+PImage grassImg;
 
 FPoly topPlatform; 
 FPoly bottomPlatform;
@@ -30,7 +36,7 @@ void setup() {
   
   //load resources
   redBird = loadImage("red-bird.png");
-  grass = loadImage("grassBlock.png");
+  grassImg = loadImage("grassBlock.png");
   
   //initialise world
   makeWorld();
@@ -42,6 +48,12 @@ void setup() {
   // initialize cloud variables
   cloudX1 = -200;
   cloudX2 = -200;
+  
+  // initialize button variables
+  gravityBtn = new Button("GRAVITY", width*0.1, height*0.9, 100, 60, green, blue);
+  FBodyBtn = new Button("FBODIES", width*0.18, height*0.9, 100, 60, green, blue);
+  gravity = 900;
+  makeFBodies = true;
 }
 
 //===========================================================================================
@@ -102,17 +114,19 @@ void makeBottomPlatform() {
 void draw() {
   println("x: " + mouseX + " y: " + mouseY);
   background(blue);
-    
+  
   if (frameCount % 20 == 0) {  //Every 20 frames ...
     makeCircle();
     makeBlob();
     makeBox();
     makeBird();
+    makeGrass();
   }
-    
+  
   world.step();  //get box2D to calculate all the forces and new positions
   
   noStroke();
+  fill(255);
   ellipse(cloudX1, 200, 140, 85);
   cloudX1 += 2.5;
   if(cloudX1 > width + 200) cloudX1 = -200;
@@ -122,6 +136,10 @@ void draw() {
   ellipse(cloudX2, 400, 160, 100);
   cloudX2 += 4;
   if(cloudX2 > width + 200) cloudX2 = -200;
+  
+  // buttons
+  gravityBtn.show();
+  FBodyBtn.show();
 }
 
 
@@ -142,7 +160,7 @@ void makeCircle() {
   circle.setRestitution(1);
 
   //add to world
-  world.add(circle);
+  if(makeFBodies) world.add(circle);
 }
 
 //===========================================================================================
@@ -162,7 +180,7 @@ void makeBlob() {
   blob.setRestitution(0.25);
 
   //add to the world
-  world.add(blob);
+  if(makeFBodies) world.add(blob);
 }
 
 //===========================================================================================
@@ -171,14 +189,15 @@ void makeBox() {
   FBlob box = new FBlob();
   box.setAsCircle(random(width), -5, 60, 4);
   
-  //set visuals
-  //box.attachImage(grass);
-
+  // set visuals
+  box.setStroke(0);
+  box.setStrokeWeight(2);
+  
   //set physical properties
-  box.setDensity(0.2);
+  box.setDensity(0.4);
   box.setFriction(1);
-  box.setRestitution(0.25);
-  world.add(box);
+  box.setRestitution(0.9);
+  if(makeFBodies) world.add(box);
 }
 
 //===========================================================================================
@@ -194,5 +213,22 @@ void makeBird() {
   bird.setDensity(0.8);
   bird.setFriction(1);
   bird.setRestitution(0.5);
-  world.add(bird);
+  if(makeFBodies) world.add(bird);
+}
+
+//===========================================================================================
+
+void makeGrass() {
+  FBox grass = new FBox(45, 45);
+  grass.setPosition(random(width), -5);
+  
+  // set visuals
+  grass.attachImage(grassImg);
+  grassImg.resize(45, 45);
+  
+  // set physical properties
+  grass.setDensity(0.2);
+  grass.setFriction(1);
+  grass.setRestitution(1);
+  if(makeFBodies) world.add(grass);
 }
