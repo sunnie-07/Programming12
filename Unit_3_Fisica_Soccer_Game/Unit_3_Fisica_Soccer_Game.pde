@@ -26,19 +26,20 @@ PImage rightP;
 
 FPoly ground;
 
+boolean drawAssets;
+
 // KEYBOARD VARIABLES
 boolean wkey, akey, skey, dkey; // left player
 boolean upkey, downkey, rightkey, leftkey; // right player
 
 void setup() {
-  size(800, 600);
+  size(1200, 600);
   textAlign(CENTER, CENTER);
-  imageMode(CENTER);
   rectMode(CENTER);
   mode = GAME;
   
   // initialize variables
-  reset();
+  drawAssets = true;
   
   // load resources
   leftP = loadImage("leftPlayer.png");
@@ -58,16 +59,17 @@ void createWorld() {
   Fisica.init(this);
   world = new FWorld();
   world.setGravity(0, 980);
+  world.setEdges(lightBlue);
 }
 
 void makeGround() {
   ground = new FPoly();
   
-  // vertices of the platform
+  // vertices of platform
   ground.vertex(0, height);
   ground.vertex(width, height);
-  ground.vertex(width, height-50);
-  ground.vertex(0, height-50);
+  ground.vertex(width, height-55);
+  ground.vertex(0, height-55);
   
   // define properties
   ground.setStatic(true);

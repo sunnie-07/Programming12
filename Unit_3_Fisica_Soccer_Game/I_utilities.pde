@@ -8,11 +8,6 @@ void shadowText(String text, float x, float y, float size, color c1, color c2) {
   text(text, x, y);
 }
 
-// reset
-void reset() {
-  
-}
-
 // button class
 class Button {
   // instance variables
