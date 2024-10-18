@@ -16,6 +16,7 @@ final int COUNTDOWN = 5;
 // COLOR VARIABLES
 color green = #499F68;
 color lightBlue = #C1E4FF;
+color brown = #C99E70;
 
 // FISICA
 FWorld world;
@@ -23,17 +24,24 @@ FWorld world;
 // ASSETS
 PImage leftP;
 PImage rightP;
+PImage soccerGrid;
 
 FPoly ground;
+FPoly leftNet;
+FPoly rightNet;
 
 boolean drawAssets;
 
+// PLAYERS
+FBox leftPlayer;
+FBox rightPlayer;
+
 // KEYBOARD VARIABLES
-boolean wkey, akey, skey, dkey; // left player
-boolean upkey, downkey, rightkey, leftkey; // right player
+boolean wkey, akey, dkey; // left player
+boolean upkey, rightkey, leftkey; // right player
 
 void setup() {
-  size(1200, 600);
+  size(1400, 700);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   mode = GAME;
@@ -44,12 +52,15 @@ void setup() {
   // load resources
   leftP = loadImage("leftPlayer.png");
   rightP = loadImage("rightPlayer.png");
+  soccerGrid = loadImage("grid.png");
   
   // initialize world
   createWorld();
   
-  // add ground to world
+  // add assets to world
   makeGround();
+  makeLeftNet();
+  makeRightNet();
 }
 
 //===========================================================================================
@@ -80,6 +91,52 @@ void makeGround() {
   world.add(ground);
 }
 
+void makeLeftNet() {
+  leftNet = new FPoly();
+  
+  // vertices of left net
+  leftNet.vertex(40, height-55);
+  leftNet.vertex(160, height-55);
+  leftNet.vertex(160, height-68.5);
+  leftNet.vertex(55, height-68.5);
+  leftNet.vertex(55, height-260);
+  leftNet.vertex(150, height-260);
+  leftNet.vertex(150, height-275);
+  leftNet.vertex(40, height-275);
+  
+  // define properties
+  leftNet.setStatic(true);
+  leftNet.setGrabbable(false);
+  leftNet.setFillColor(brown);
+  leftNet.setNoStroke();
+  leftNet.setFriction(0.2);
+  
+  world.add(leftNet);
+}
+
+void makeRightNet() {
+  rightNet = new FPoly();
+  
+  // vertices of right net
+  rightNet.vertex(width-40, height-55);
+  rightNet.vertex(width-160, height-55);
+  rightNet.vertex(width-160, height-68.5);
+  rightNet.vertex(width-55, height-68.5);
+  rightNet.vertex(width-55, height-260);
+  rightNet.vertex(width-150, height-260);
+  rightNet.vertex(width-150, height-275);
+  rightNet.vertex(width-40, height-275);
+  
+  // define properties
+  rightNet.setStatic(true);
+  rightNet.setGrabbable(false);
+  rightNet.setFillColor(brown);
+  rightNet.setNoStroke();
+  rightNet.setFriction(0.2);
+  
+  world.add(rightNet);
+}
+
 //===========================================================================================
 
 void draw() {
@@ -98,8 +155,4 @@ void draw() {
   } else {
     println("Error: Mode = " + mode);
   }
-}
-
-void handlePlayerInput() {
-  
 }
