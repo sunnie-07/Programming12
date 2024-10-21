@@ -1,11 +1,30 @@
 // text effect
 void shadowText(String text, float x, float y, float size, color c1, color c2) {
   textSize(size);
-  fill(c2, 160);
-  text(text, x+6.5, y+6.5);
-  text(text, x+4, y+4);
+  fill(c2);
+  text(text, x+5.5, y+5.5);
+  text(text, x+3, y+3);
   fill(c1);
   text(text, x, y);
+}
+
+// reset player positions
+void resetPosition() {
+  leftPlayer.setPosition(width/2-240, height-180);
+  rightPlayer.setPosition(width/2+230, height-180);
+  ballTimer = 1000;
+  if(squareBall == false) {
+    roundSoccerB.setPosition(width/2, 200);
+    roundSoccerB.setVelocity(0, 0);
+    roundSoccerB.setAngularVelocity(0);
+    roundSoccerB.setRotation(0);
+  }
+  else {
+    squareSoccerB.setPosition(width/2, 200);
+    squareSoccerB.setVelocity(0, 0);
+    squareSoccerB.setAngularVelocity(0);
+    squareSoccerB.setRotation(0);
+  }
 }
 
 // button class
@@ -14,7 +33,6 @@ class Button {
   float x, y, w, h;
   color highlight, normal;
   String text;
-  PImage image;
   
   // constructors
   Button(String t, float _x, float _y, float _w, float _h, color norm, color high) {
@@ -26,17 +44,7 @@ class Button {
     highlight = high;
     normal = norm;
   }
-  
-  Button(PImage img, int _x, int _y, int _w, int _h, color norm, color high) {
-    x = _x;
-    y = _y;
-    w = _w;
-    h = _h;
-    image = img;
-    highlight = high;
-    normal = norm;
-  }
-  
+
   // behaviour functions
   void show() {
     drawRect();
@@ -56,26 +64,21 @@ class Button {
     } else {
       fill(normal); 
     }
-    stroke(120);
-    strokeWeight(3);
+    stroke(0);
+    strokeWeight(5);
     rect(x, y, w, h, 20);
   }
   
   void drawLabel() {
     // text label
     textAlign(CENTER, CENTER);
-    imageMode(CENTER);
     if(onRect()) {
       fill(normal); 
     } else {
       fill(highlight); 
     }
-    if(image == null) {
-      textSize(w/4);
-      text(text, x, y);
-    } else {
-      image(image, x, y, h*0.8, h*0.8);
-    }
+    textSize(w/14);
+    text(text, x, y-3.2);
   }
   
   boolean overRect() {

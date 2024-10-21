@@ -15,8 +15,13 @@ final int COUNTDOWN = 5;
 
 // COLOR VARIABLES
 color green = #499F68;
+color lightGreen = #B9D8A4;
 color lightBlue = #C1E4FF;
 color brown = #C99E70;
+color white = #FFFFFF;
+color black = #000000;
+color darkBlue = #6074D3;
+color turqoise = #17BCB8;
 
 // FISICA
 FWorld world;
@@ -25,6 +30,8 @@ FWorld world;
 PImage leftP;
 PImage rightP;
 PImage soccerGrid;
+PImage roundSoccer;
+PImage squareSoccer;
 
 FPoly ground;
 FPoly leftNet;
@@ -32,27 +39,68 @@ FPoly rightNet;
 
 boolean drawAssets;
 
-// PLAYERS
+// PLAYERS AND BALLS
 FBox leftPlayer;
 FBox rightPlayer;
+
+FBox leftNetGrid;
+FBox leftNetSensor;
+
+FBox rightNetGrid;
+FBox rightNetSensor;
+
+boolean squareBall;
+FCircle roundSoccerB;
+FBox squareSoccerB;
+float ballTimer;
+
+// SCORES
+int leftPScore, rightPScore;
 
 // KEYBOARD VARIABLES
 boolean wkey, akey, dkey; // left player
 boolean upkey, rightkey, leftkey; // right player
 
+// GIF VARIABLES
+Gif soccerGif, skyGif;
+
+// BUTTON VARIABLES
+PFont pixel;
+Button roundB, squareB;
+Button pause, returnToGame;
+
 void setup() {
   size(1400, 700);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
-  mode = GAME;
+  mode = INTRO;
   
   // initialize variables
   drawAssets = true;
+  squareBall = false;
+  
+  leftPScore = 0;
+  rightPScore = 0;
+  
+  ballTimer = 1000;
+  
+  // initialize gifs
+  soccerGif = new Gif("soccerGif/frame_", "_delay-0.1s.gif", 8, 2, 0, 0, width, height);
+  skyGif = new Gif("skyGif/frame_", "_delay-0.08s.gif", 48, 2, 0, 0, width, height);
+  
+  // initialize buttons
+  pixel = createFont("Daydream.ttf", 80);
+  roundB = new Button("ROUND SOCCER", width/2-210, height-65, 300, 40, lightGreen, black);
+  squareB = new Button("SQUARE SOCCER", width/2+210, height-65, 300, 40, lightGreen, black);
+  pause = new Button("PAUSE", width/2, 35, 175, 38, lightGreen, black);
+  returnToGame = new Button("RETURN", width/2-260, height/2-160, 200, 50, lightGreen, black);
   
   // load resources
   leftP = loadImage("leftPlayer.png");
   rightP = loadImage("rightPlayer.png");
   soccerGrid = loadImage("grid.png");
+  roundSoccer = loadImage("roundBall.png");
+  squareSoccer = loadImage("squareBall.png");
   
   // initialize world
   createWorld();
@@ -69,7 +117,7 @@ void createWorld() {
   // init world
   Fisica.init(this);
   world = new FWorld();
-  world.setGravity(0, 980);
+  world.setGravity(0, 900);
   world.setEdges(lightBlue);
 }
 
@@ -148,10 +196,6 @@ void draw() {
     pause();
   } else if (mode == GAMEOVER) {
     gameover();
-  } else if (mode == PLAYERPAUSE) {
-    playerpause();
-  } else if (mode == COUNTDOWN) {
-    countdown();
   } else {
     println("Error: Mode = " + mode);
   }
