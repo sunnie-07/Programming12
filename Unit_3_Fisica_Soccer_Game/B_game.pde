@@ -171,16 +171,22 @@ boolean hitNet(FBox net) {
 void bounceBall() {
   ballTimer --;
   if(squareBall == false) {
-    float roundBall_vx = roundSoccerB.getVelocityX();
-    if(ballTimer < 0) {
-      roundSoccerB.setVelocity(roundBall_vx, -1100);
-      ballTimer = 1000;
+    if(ballTimer < 0 && roundSoccerB.getY() >= height-100) {
+      roundSoccerB.setPosition(roundSoccerB.getX(), 200);
+      roundSoccerB.setVelocity(0, 0);
+      roundSoccerB.setAngularVelocity(0);
+      roundSoccerB.setRotation(0);
+      
+      ballTimer = 500;
     }
   } else {
-    float squareBall_vx = squareSoccerB.getVelocityX();
-    if(ballTimer < 0) {
-      squareSoccerB.setVelocity(squareBall_vx, -1100);
-      ballTimer = 1000;
+    if(ballTimer < 0 && squareSoccerB.getY() >= height-100) {
+      squareSoccerB.setPosition(squareSoccerB.getX(), 200);
+      squareSoccerB.setVelocity(0, 0);
+      squareSoccerB.setAngularVelocity(0);
+      squareSoccerB.setRotation(0);
+      
+      ballTimer = 500;
     }
   }
 }

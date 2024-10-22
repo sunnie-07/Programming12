@@ -12,7 +12,7 @@ void shadowText(String text, float x, float y, float size, color c1, color c2) {
 void resetPosition() {
   leftPlayer.setPosition(width/2-240, height-180);
   rightPlayer.setPosition(width/2+230, height-180);
-  ballTimer = 1000;
+  ballTimer = 500;
   if(squareBall == false) {
     roundSoccerB.setPosition(width/2, 200);
     roundSoccerB.setVelocity(0, 0);

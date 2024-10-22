@@ -82,7 +82,7 @@ void setup() {
   leftPScore = 0;
   rightPScore = 0;
   
-  ballTimer = 1000;
+  ballTimer = 500;
   
   // initialize gifs
   soccerGif = new Gif("soccerGif/frame_", "_delay-0.1s.gif", 8, 2, 0, 0, width, height);
