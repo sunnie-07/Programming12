@@ -16,6 +16,7 @@ FPlayer player;
 // MAP VARIABLES
 PImage map;
 int gridSize = 32;
+float zoom = 1.5;
 
 // KEYBOARD VARIABLES
 boolean wkey, akey, skey, dkey, qkey, ekey;
@@ -62,8 +63,18 @@ void loadPlayer() {
 
 void draw() {
   background(lightBlue);
-  world.step();
-  world.draw();
+  drawWorld();
   
   player.act();
+}
+
+//===========================================================================================
+
+void drawWorld() {
+  pushMatrix();
+  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
+  scale(zoom);
+  world.step();
+  world.draw();
+  popMatrix();
 }
