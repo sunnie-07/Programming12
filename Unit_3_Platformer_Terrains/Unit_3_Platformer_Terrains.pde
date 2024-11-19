@@ -12,14 +12,15 @@ color skyBlue = #AADFFF;
 color lightBlue = #99D9EA;
 color green = #22b14c;
 color brown = #9e733f;
-color red = #d12121;  
+color grey = #9c9c9c;
+color purple = #cc33cc;
 
 // PLAYER VARIABLES
 FPlayer player;
 
 // TERRAIN VARIABLES
-PImage ice, lava, stone, treeTrunk;
-PImage treeIntersect, treetopCenter, treetopE, treetopW;
+PImage ice, spike, stone, trampoline;
+PImage treeTrunk, treeIntersect, treetopCenter, treetopE, treetopW;
 
 // MAP VARIABLES
 PImage map;
@@ -45,8 +46,9 @@ void loadImages() {
   map = loadImage("map.png");
   
   ice = loadImage("ice.jpg");
-  lava = loadImage("lava.png");
+  spike = loadImage("spike.png");
   stone = loadImage("stone.jpg");
+  trampoline = loadImage("trampoline.png");
   treeTrunk = loadImage("treeTrunk.png");
   treeIntersect = loadImage("tree_intersect.png");
   treetopCenter = loadImage("treetop_center.png");
@@ -54,8 +56,9 @@ void loadImages() {
   treetopW = loadImage("treetop_w.png");
   
   ice.resize(gridSize, gridSize);
-  lava.resize(gridSize, gridSize);
+  spike.resize(gridSize, gridSize);
   stone.resize(gridSize, gridSize);
+  trampoline.resize(gridSize, gridSize);
   treeTrunk.resize(gridSize, gridSize);
   treeIntersect.resize(gridSize, gridSize);
   treetopCenter.resize(gridSize, gridSize);
@@ -122,9 +125,16 @@ void loadWorld(PImage img) {
         }
       }
       
-      else if(c == red) { // lava block
-        b.attachImage(lava);
-        b.setName("lava");
+      else if(c == grey) { // spike block
+        b.attachImage(spike);
+        b.setName("spike");
+        world.add(b);
+      }
+      
+      else if(c == purple) { // trampoline
+        b.attachImage(trampoline);
+        b.setFriction(4);
+        b.setName("trampoline");
         world.add(b);
       }
     }

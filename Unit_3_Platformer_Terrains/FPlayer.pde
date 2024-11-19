@@ -27,8 +27,17 @@ class FPlayer extends FBox { // inherit methods from parent class
     ArrayList<FContact> contacts = getContacts();
     for(int i = 0; i < contacts.size(); i++) {
       FContact fc = contacts.get(i);
-      if(fc.contains("lava")) {
+      
+      if(fc.contains("spike")) {
         setPosition(65, 0);
+        setVelocity(0, 0);
+      }
+      
+      if(fc.contains("trampoline")) {
+        setRestitution(1.25);
+      }
+      else {
+        setRestitution(0);
       }
     }
   }
