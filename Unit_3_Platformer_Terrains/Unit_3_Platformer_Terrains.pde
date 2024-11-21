@@ -22,6 +22,8 @@ FPlayer player;
 // TERRAIN VARIABLES
 PImage ice, spike, stone, trampoline, bridge;
 PImage treeTrunk, treeIntersect, treetopCenter, treetopE, treetopW;
+PImage[] lavaGif;
+int numFrames;
 ArrayList<FGameObject> terrain;
 
 // MAP VARIABLES
@@ -36,6 +38,8 @@ boolean upkey, downkey, leftkey, rightkey, spacekey;
 void setup() {
   size(600, 600);
   Fisica.init(this); 
+  numFrames = 6;
+  lavaGif = new PImage[numFrames];
   terrain = new ArrayList<FGameObject>();
   
   loadImages();
@@ -69,6 +73,11 @@ void loadImages() {
   treetopCenter.resize(gridSize, gridSize);
   treetopE.resize(gridSize, gridSize);
   treetopW.resize(gridSize, gridSize);
+  
+  for(int i = 0; i < numFrames; i++) {
+    lavaGif[i] = loadImage("lavaGif/lava" + i + ".png");
+    lavaGif[i].resize(gridSize, gridSize);
+  }
 }
 
 void loadWorld(PImage img) {
@@ -143,6 +152,7 @@ void loadWorld(PImage img) {
       else if (c == purple) { // trampoline
         b.attachImage(trampoline);
         b.setFriction(4);
+        b.setRestitution(1.25);
         b.setName("trampoline");
         world.add(b);
       }

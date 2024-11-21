@@ -17,12 +17,6 @@ class FPlayer extends FGameObject { // inherit methods from parent class
       setPosition(0, 0);
       setVelocity(0, 0);
     }
-    
-    if (isTouching("trampoline")) {
-      setRestitution(1.25);
-    } else {
-      setRestitution(0);
-    }
   }
 
   void handleInput() {

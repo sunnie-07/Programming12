@@ -3,11 +3,10 @@ class FGameObject extends FBox {
   FGameObject() {
     super(gridSize, gridSize);
   }
-
+  
   // behaviour functions
-  void act() {
-  }
-
+  void act() { }
+  
   boolean isTouching(String s) {
     ArrayList<FContact> contacts = getContacts();
     for (int i = 0; i < contacts.size(); i++) {
