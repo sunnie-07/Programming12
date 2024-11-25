@@ -15,15 +15,19 @@ color brown = #9e733f;
 color grey = #9c9c9c;
 color purple = #cc33cc;
 color orange = #f27d16;
+color red = #E34545;
 
 // PLAYER VARIABLES
 FPlayer player;
+PImage[] idle;
+PImage[] runRight;
+PImage[] runLeft;
+PImage[] action;
 
 // TERRAIN VARIABLES
 PImage ice, spike, stone, trampoline, bridge;
 PImage treeTrunk, treeIntersect, treetopCenter, treetopE, treetopW;
 PImage[] lavaGif;
-int numFrames;
 ArrayList<FGameObject> terrain;
 
 // MAP VARIABLES
@@ -38,9 +42,12 @@ boolean upkey, downkey, leftkey, rightkey, spacekey;
 void setup() {
   size(600, 600);
   Fisica.init(this); 
-  numFrames = 6;
-  lavaGif = new PImage[numFrames];
+  
   terrain = new ArrayList<FGameObject>();
+  lavaGif = new PImage[6];
+  idle = new PImage[2];
+  runRight = new PImage[4];
+  runLeft = new PImage[4];
   
   loadImages();
   loadWorld(map);
@@ -74,9 +81,24 @@ void loadImages() {
   treetopE.resize(gridSize, gridSize);
   treetopW.resize(gridSize, gridSize);
   
-  for(int i = 0; i < numFrames; i++) {
+  for(int i = 0; i < 6; i++) { // lava gif
     lavaGif[i] = loadImage("lavaGif/lava" + i + ".png");
     lavaGif[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 2; i++) { // idle character
+    idle[i] = loadImage("charSprite/idle" + i + ".png");
+    idle[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 4; i++) { // run right character
+    runRight[i] = loadImage("charSprite/right" + i + ".png");
+    runRight[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 4; i++) { // run left character
+    runLeft[i] = loadImage("charSprite/left" + i + ".png");
+    runLeft[i].resize(gridSize, gridSize);
   }
 }
 
@@ -161,6 +183,12 @@ void loadWorld(PImage img) {
         FBridge br = new FBridge(x*gridSize, y*gridSize);
         terrain.add(br);
         world.add(br);
+      }
+      
+      else if (c == red) { // lava
+        FLava lv = new FLava(x*gridSize, y*gridSize);
+        terrain.add(lv);
+        world.add(lv);
       }
     }
   }
