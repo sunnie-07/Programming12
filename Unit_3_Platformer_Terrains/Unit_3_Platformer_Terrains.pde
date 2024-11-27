@@ -20,8 +20,8 @@ color red = #E34545;
 // PLAYER VARIABLES
 FPlayer player;
 PImage[] idle;
-PImage[] runRight;
-PImage[] runLeft;
+PImage[] run;
+PImage[] jump;
 PImage[] action;
 
 // TERRAIN VARIABLES
@@ -45,9 +45,9 @@ void setup() {
   
   terrain = new ArrayList<FGameObject>();
   lavaGif = new PImage[6];
-  idle = new PImage[2];
-  runRight = new PImage[4];
-  runLeft = new PImage[4];
+  idle = new PImage[10];
+  run = new PImage[4];
+  jump = new PImage[1];
   
   loadImages();
   loadWorld(map);
@@ -86,20 +86,20 @@ void loadImages() {
     lavaGif[i].resize(gridSize, gridSize);
   }
   
-  for(int i = 0; i < 2; i++) { // idle character
+  for(int i = 0; i < 10; i++) { // idle
     idle[i] = loadImage("charSprite/idle" + i + ".png");
     idle[i].resize(gridSize, gridSize);
   }
   
-  for(int i = 0; i < 4; i++) { // run right character
-    runRight[i] = loadImage("charSprite/right" + i + ".png");
-    runRight[i].resize(gridSize, gridSize);
+  for(int i = 0; i < 4; i++) { // run
+    run[i] = loadImage("charSprite/right" + i + ".png");
+    run[i].resize(gridSize, gridSize);
   }
   
-  for(int i = 0; i < 4; i++) { // run left character
-    runLeft[i] = loadImage("charSprite/left" + i + ".png");
-    runLeft[i].resize(gridSize, gridSize);
-  }
+  jump[0] = loadImage("charSprite/jump0.png"); // jump
+  jump[0].resize(gridSize, gridSize);
+  
+  action = idle;
 }
 
 void loadWorld(PImage img) {
