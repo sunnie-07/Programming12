@@ -13,7 +13,7 @@ class FLava extends FGameObject {
   
   // behaviour function
   void act() {
-    if(currentFrame == 6) currentFrame = 0;
+    if(currentFrame >= lavaGif.length) currentFrame = 0;
     attachImage(lavaGif[currentFrame]);
     if(frameCount % 18 == 0) currentFrame++;
   }

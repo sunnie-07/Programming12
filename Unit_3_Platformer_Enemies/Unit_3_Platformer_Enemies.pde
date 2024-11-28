@@ -25,7 +25,6 @@ PImage[] idle;
 PImage[] run;
 PImage[] jump;
 PImage[] action;
-int lives;
 PImage life;
 
 // TERRAIN VARIABLES
@@ -35,6 +34,7 @@ PImage[] lavaGif;
 ArrayList<FGameObject> terrain;
 
 // ENEMY VARIABLES
+PImage[] goomba;
 ArrayList<FGameObject> enemies;
 
 // MAP VARIABLES
@@ -56,6 +56,7 @@ void setup() {
   idle = new PImage[10];
   run = new PImage[4];
   jump = new PImage[1];
+  goomba = new PImage[2];
   
   loadImages();
   loadWorld(map);
@@ -110,6 +111,11 @@ void loadImages() {
   jump[0].resize(gridSize, gridSize);
   
   action = idle;
+  
+  for(int i = 0; i < 2; i++) {
+    goomba[i] = loadImage("enemies/goomba" + i + ".png");
+    goomba[i].resize(gridSize, gridSize);
+  }
 }
 
 void loadWorld(PImage img) {
@@ -246,14 +252,14 @@ void actWorld() {
 
 void drawWorld() {
   // display lives
-  if(lives == 3) {
+  if(player.lives == 3) {
     image(life, 20, 10, 35, 36);
     image(life, 55, 10, 35, 36);
     image(life, 90, 10, 35, 36);
-  } else if(lives == 2) {
+  } else if(player.lives == 2) {
     image(life, 20, 10, 35, 36);
     image(life, 55, 10, 35, 36);
-  } else if(lives == 1) {
+  } else if(player.lives == 1) {
     image(life, 20, 10, 35, 36);
   } else { }
   

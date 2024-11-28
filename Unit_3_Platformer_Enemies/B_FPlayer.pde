@@ -2,6 +2,7 @@ class FPlayer extends FGameObject { // inherit methods from parent class
   // instance variables
   int frame;
   int direction;
+  int lives;
   
   // constructor
   FPlayer() {
@@ -51,15 +52,17 @@ class FPlayer extends FGameObject { // inherit methods from parent class
   void collisions() {
     if (isTouching("spike")) {
       lives--;
+      setPosition(0, 0);
+      setVelocity(0, 0);
     }
     
     if (isTouching("lava")) {
       lives--;
+      setPosition(0, 0);
+      setVelocity(0, 0);
     }
     
     if (lives == 0) {
-      setPosition(0, 0);
-      setVelocity(0, 0);
     }
   }
   
