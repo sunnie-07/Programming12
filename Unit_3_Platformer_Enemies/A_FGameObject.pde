@@ -8,6 +8,10 @@ class FGameObject extends FBox {
     super(gridSize, gridSize);
   }
   
+  FGameObject(int s) {
+    super(2*s, 2*s);
+  }
+  
   // behaviour functions
   void act() { }
   

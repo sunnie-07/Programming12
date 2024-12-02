@@ -56,7 +56,7 @@ class FPlayer extends FGameObject { // inherit methods from parent class
       setVelocity(0, 0);
     }
     
-    if (isTouching("lava")) {
+    if (isTouching("hammer")) {
       lives--;
       setPosition(0, 0);
       setVelocity(0, 0);

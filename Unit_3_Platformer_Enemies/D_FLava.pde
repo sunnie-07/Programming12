@@ -13,8 +13,21 @@ class FLava extends FGameObject {
   
   // behaviour function
   void act() {
+    animate();
+    collide();
+  }
+  
+  void animate() {
     if(currentFrame >= lavaGif.length) currentFrame = 0;
     attachImage(lavaGif[currentFrame]);
     if(frameCount % 18 == 0) currentFrame++;
+  }
+  
+  void collide() {
+    if (isTouching("player")) {
+      player.lives--;
+      player.setPosition(0, 0);
+      player.setVelocity(0, 0);
+    }
   }
 }

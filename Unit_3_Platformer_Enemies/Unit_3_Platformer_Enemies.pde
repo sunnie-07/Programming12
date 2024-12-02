@@ -18,6 +18,9 @@ color orange = #f27d16;
 color red = #E34545;
 color yellow = #f0de18;
 color pink = #eda4cd;
+color coral = #db6071;
+color turquoise = #5fe3be;
+color magenta = #d444a6;
 
 // PLAYER VARIABLES
 FPlayer player;
@@ -34,7 +37,10 @@ PImage[] lavaGif;
 ArrayList<FGameObject> terrain;
 
 // ENEMY VARIABLES
+PImage sleepyThwomp, angryThwomp;
 PImage[] goomba;
+PImage[] hammerBro;
+PImage hammerImg;
 ArrayList<FGameObject> enemies;
 
 // MAP VARIABLES
@@ -57,6 +63,7 @@ void setup() {
   run = new PImage[4];
   jump = new PImage[1];
   goomba = new PImage[2];
+  hammerBro = new PImage[2];
   
   loadImages();
   loadWorld(map);
@@ -78,6 +85,9 @@ void loadImages() {
   treetopCenter = loadImage("treetop_center.png");
   treetopE = loadImage("treetop_e.png");
   treetopW = loadImage("treetop_w.png");
+  sleepyThwomp = loadImage("enemies/thwomp0.png");
+  angryThwomp = loadImage("enemies/thwomp1.png");
+  hammerImg = loadImage("enemies/hammer.png");
 
   ice.resize(gridSize, gridSize);
   spike.resize(gridSize, gridSize);
@@ -89,6 +99,9 @@ void loadImages() {
   treetopCenter.resize(gridSize, gridSize);
   treetopE.resize(gridSize, gridSize);
   treetopW.resize(gridSize, gridSize);
+  sleepyThwomp.resize(2*gridSize, 2*gridSize);
+  angryThwomp.resize(2*gridSize, 2*gridSize);
+  hammerImg.resize(gridSize, gridSize);
   
   for(int i = 0; i < 6; i++) { // lava gif
     lavaGif[i] = loadImage("lavaGif/lava" + i + ".png");
@@ -115,6 +128,11 @@ void loadImages() {
   for(int i = 0; i < 2; i++) {
     goomba[i] = loadImage("enemies/goomba" + i + ".png");
     goomba[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 2; i++) {
+    hammerBro[i] = loadImage("enemies/hammerbro" + i + ".png");
+    hammerBro[i].resize(gridSize, gridSize);
   }
 }
 
@@ -145,6 +163,14 @@ void loadWorld(PImage img) {
       else if (c == pink) { // wall
         b.attachImage(stone);
         b.setFriction(4);
+        b.setName("wall");
+        world.add(b);
+      }
+      
+      else if (c == magenta) { // invisible wall
+        b.setSensor(true);
+        b.setNoFill();
+        b.setNoStroke();
         b.setName("wall");
         world.add(b);
       }
@@ -219,6 +245,18 @@ void loadWorld(PImage img) {
         enemies.add(gmb);
         world.add(gmb);
       }
+      
+      else if (c == coral) { // thwomp
+        FThwomp twp = new FThwomp(x*gridSize, y*gridSize);
+        enemies.add(twp);
+        world.add(twp);
+      }
+      
+      else if (c == turquoise) { // hammer bro
+        FHammerBro hb = new FHammerBro(x*gridSize, y*gridSize);
+        enemies.add(hb);
+        world.add(hb);
+      }
     }
   }
 }
@@ -251,6 +289,13 @@ void actWorld() {
 }
 
 void drawWorld() {
+  pushMatrix();
+  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
+  scale(zoom);
+  world.step();
+  world.draw();
+  popMatrix();
+  
   // display lives
   if(player.lives == 3) {
     image(life, 20, 10, 35, 36);
@@ -262,11 +307,4 @@ void drawWorld() {
   } else if(player.lives == 1) {
     image(life, 20, 10, 35, 36);
   } else { }
-  
-  pushMatrix();
-  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
-  scale(zoom);
-  world.step();
-  world.draw();
-  popMatrix();
 }
