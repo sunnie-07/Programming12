@@ -10,10 +10,13 @@ int mode;
 final int INTRO = 0;
 final int INSTRUCTIONS = 1;
 final int GAME = 2;
-final int GAMEOVER = 3;
+final int PAUSE = 3;
+final int GAMEOVER = 4;
 
 // COLOR VARIABLES
 color white = #FFFFFF;
+color black = #000000;
+color darkGreen = #223440;
 
 // PLAYER VARIABLES
 FPlayer player;
@@ -22,6 +25,7 @@ PImage life;
 
 // TERRAIN VARIABLES
 ArrayList<FGameObject> terrain;
+PImage grass;
 
 // ENEMY VARIABLES
 ArrayList<FGameObject> enemies;
@@ -32,13 +36,13 @@ PImage backgroundImg;
 // MAP VARIABLES
 PImage map;
 int gridSize = 32;
-float zoom = 1.5;
+float zoom = 2;
 
 // KEYBOARD VARIABLES
 boolean wkey, akey, skey, dkey, qkey, ekey;
 
 void setup() {
-  size(1400, 900);
+  size(1000, 700);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   mode = GAME;
@@ -58,7 +62,13 @@ void setup() {
 void loadImages() {
   map = loadImage("map.png");
   backgroundImg = loadImage("BG.png");
+  backgroundImg.resize(2500, 1050);
+  
   life = loadImage("gameheart.png");
+  
+  grass = loadImage("grass.png");
+  
+  grass.resize(gridSize, gridSize);
 }
 
 void loadWorld(PImage img) {
@@ -77,6 +87,13 @@ void loadWorld(PImage img) {
       b.setPosition(x*gridSize, y*gridSize);
       b.setStatic(true);
       b.setGrabbable(false);
+      
+      if (c == black) {
+        b.attachImage(grass);
+        b.setFriction(2);
+        b.setName("grass");
+        world.add(b);
+      }
     }
   }
 }
@@ -92,57 +109,14 @@ void draw() {
   if (mode == INTRO) {
     intro();
   } else if (mode == INSTRUCTIONS) {
-    game();
+    instructions();
   } else if (mode == GAME) {
+    game();
+  } else if (mode == PAUSE) {
     pause();
   } else if (mode == GAMEOVER) {
     gameover();
   } else {
     println("Error: Mode = " + mode);
   }
-}
-
-//===========================================================================================
-
-void actWorld() {
-  player.act();
-  for(int i = 0; i < terrain.size(); i++) {
-    FGameObject t = terrain.get(i);
-    t.act();
-  }
-  for(int i = 0; i < enemies.size(); i++) {
-    FGameObject e = enemies.get(i);
-    e.act();
-  }
-}
-
-void drawWorld() {
-  drawBG();
-  
-  pushMatrix();
-  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
-  scale(zoom);
-  world.step();
-  world.draw();
-  popMatrix();
-  
-  // display lives
-  if(player.lives == 3) {
-    image(life, 20, 10, 35, 36);
-    image(life, 55, 10, 35, 36);
-    image(life, 90, 10, 35, 36);
-  } else if(player.lives == 2) {
-    image(life, 20, 10, 35, 36);
-    image(life, 55, 10, 35, 36);
-  } else if(player.lives == 1) {
-    image(life, 20, 10, 35, 36);
-  } else { }
-}
-
-void drawBG() {
-  pushMatrix();
-  translate(-player.getX()/2, -player.getY()/2);
-  scale(1.2);
-  image(backgroundImg, 0, 0, 2.5*height, height);
-  popMatrix();
 }
