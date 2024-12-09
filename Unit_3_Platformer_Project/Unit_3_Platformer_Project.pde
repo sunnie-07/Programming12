@@ -17,15 +17,27 @@ final int GAMEOVER = 4;
 color white = #FFFFFF;
 color black = #000000;
 color darkGreen = #223440;
+color red = #e34545;
+color grey = #9c9c9c;
+color pink = #ed79e5;
+color blue = #00b7ef;
+color green = #22b14c;
+color brown = #9e733f;
+
+// TEXT VARIABLES
+PFont pixel;
 
 // PLAYER VARIABLES
 FPlayer player;
+PImage[] idle;
+PImage[] run;
+PImage[] jump;
 PImage[] action;
 PImage life;
 
 // TERRAIN VARIABLES
 ArrayList<FGameObject> terrain;
-PImage grass;
+PImage grass, mushGround, stone, vine;
 
 // ENEMY VARIABLES
 ArrayList<FGameObject> enemies;
@@ -38,6 +50,9 @@ PImage map;
 int gridSize = 32;
 float zoom = 2;
 
+// MAP 1 PUZZLES
+int numBtPressed = 0;
+
 // KEYBOARD VARIABLES
 boolean wkey, akey, skey, dkey, qkey, ekey;
 
@@ -49,8 +64,17 @@ void setup() {
   
   Fisica.init(this);
   
+  // act lists
   terrain = new ArrayList<FGameObject>();
   enemies = new ArrayList<FGameObject>();
+  
+  // player animations
+  idle = new PImage[10];
+  run = new PImage[4];
+  jump = new PImage[1];
+  
+  // initialize font
+  pixel = createFont("Daydream.ttf", 80);
   
   loadImages();
   loadWorld(map);
@@ -67,8 +91,29 @@ void loadImages() {
   life = loadImage("gameheart.png");
   
   grass = loadImage("grass.png");
+  mushGround = loadImage("mushGround.png");
+  stone = loadImage("stone.png");
+  vine = loadImage("vine.png");
   
   grass.resize(gridSize, gridSize);
+  mushGround.resize(gridSize, gridSize);
+  stone.resize(gridSize, gridSize);
+  vine.resize(gridSize, gridSize);
+  
+  for(int i = 0; i < 10; i++) { // idle
+    idle[i] = loadImage("charSprite/idle" + i + ".png");
+    idle[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 4; i++) { // run
+    run[i] = loadImage("charSprite/right" + i + ".png");
+    run[i].resize(gridSize, gridSize);
+  }
+  
+  jump[0] = loadImage("charSprite/jump0.png"); // jump
+  jump[0].resize(gridSize, gridSize);
+  
+  action = idle;
 }
 
 void loadWorld(PImage img) {
@@ -88,10 +133,39 @@ void loadWorld(PImage img) {
       b.setStatic(true);
       b.setGrabbable(false);
       
-      if (c == black) {
+      if (c == black) { // grass ground
         b.attachImage(grass);
         b.setFriction(2);
         b.setName("grass");
+        world.add(b);
+      }
+      
+      else if (c == red) { // mushrooms on ground
+        b.attachImage(mushGround);
+        b.setSensor(true);
+        b.setName("mushroom ground");
+        world.add(b);
+      }
+      
+      else if (c == grey) { // stone
+        b.attachImage(stone);
+        b.setFriction(2);
+        b.setName("stone");
+        world.add(b);
+      }
+      
+      else if (c == pink) { // gate
+        
+      }
+      
+      else if (c == blue) { // next level
+        
+      }
+      
+      else if (c == green) { // vine
+        b.attachImage(vine);
+        b.setSensor(true);
+        b.setName("vine");
         world.add(b);
       }
     }

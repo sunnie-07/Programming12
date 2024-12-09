@@ -8,9 +8,7 @@ class FPlayer extends FGameObject {
   FPlayer() {
     super();
     setName("player");
-    setPosition(0, 200);
-    setFillColor(white);
-    setNoStroke();
+    setPosition(gridSize+5, 600);
     setRotatable(false);
     
     frame = 0;
@@ -22,30 +20,30 @@ class FPlayer extends FGameObject {
   void act() {
     input();
     collisions();
-    //animate();
+    animate();
   }
   
   void input() {
     float vx = getVelocityX();
     float vy = getVelocityY();
     if (abs(vy) < 0.01) {
-      //action = idle;
+      action = idle;
     }
     if (akey) {
       setVelocity(-180, vy);
-      //action = run;
+      action = run;
       direction = L;
     }
     if (dkey) {
       setVelocity(180, vy);
-      //action = run;
+      action = run;
       direction = R;
     }
-    if (wkey) {
-      setVelocity(vx, -200);
+    if (wkey && isTouching("grass")) {
+      setVelocity(vx, -400);
     }
     if (abs(vy) > 0.01) {
-      //action = jump;
+      action = jump;
     }
   }
   
@@ -54,12 +52,12 @@ class FPlayer extends FGameObject {
     }
   }
   
-  //void animate() {
-  //  if(frame >= action.length) frame = 0;
-  //  if(frameCount % 9 == 0) {
-  //    if (direction == R) attachImage(action[frame]);
-  //    else if (direction == L) attachImage(reverseImage(action[frame]));
-  //    frame++;
-  //  }
-  //}
+  void animate() {
+    if(frame >= action.length) frame = 0;
+    if(frameCount % 9 == 0) {
+      if (direction == R) attachImage(action[frame]);
+      else if (direction == L) attachImage(reverseImage(action[frame]));
+      frame++;
+    }
+  }
 }
