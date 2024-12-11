@@ -3,6 +3,8 @@ void game() {
   drawWorld();
   actWorld();
   drawLives();
+  
+  println(buttonPressed);
 }
 
 void gameClicks() {
@@ -24,9 +26,9 @@ void actWorld() {
 }
 
 void drawBG() {
-  float xoff = map(player.getX(), 0, 64*gridSize, 300, 0);
-  float yoff = map(player.getY(), 0, 64*gridSize, 300, 0);
-  image(backgroundImg, int(xoff-500), int(yoff-450));
+  float xoff = map(player.getX(), 0, 64*gridSize, 550, 0);
+  float yoff = map(player.getY(), 0, 64*gridSize, 550, 0);
+  image(backgroundImg, int(xoff-800), int(yoff-400));
 }
 
 void drawWorld() {

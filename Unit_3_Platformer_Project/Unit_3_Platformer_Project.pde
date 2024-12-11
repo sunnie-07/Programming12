@@ -38,6 +38,7 @@ PImage life;
 // TERRAIN VARIABLES
 ArrayList<FGameObject> terrain;
 PImage grass, mushGround, stone, vine;
+PImage buttonOn, buttonOff, gate;
 
 // ENEMY VARIABLES
 ArrayList<FGameObject> enemies;
@@ -51,7 +52,7 @@ int gridSize = 32;
 float zoom = 2;
 
 // MAP 1 PUZZLES
-int numBtPressed = 0;
+int buttonPressed = 3;
 
 // KEYBOARD VARIABLES
 boolean wkey, akey, skey, dkey, qkey, ekey;
@@ -94,11 +95,17 @@ void loadImages() {
   mushGround = loadImage("mushGround.png");
   stone = loadImage("stone.png");
   vine = loadImage("vine.png");
+  buttonOn = loadImage("buttonOn.png");
+  buttonOff = loadImage("buttonOff.png");
+  gate = loadImage("gate.png");
   
   grass.resize(gridSize, gridSize);
   mushGround.resize(gridSize, gridSize);
   stone.resize(gridSize, gridSize);
   vine.resize(gridSize, gridSize);
+  buttonOn.resize(gridSize, gridSize);
+  buttonOff.resize(gridSize, gridSize);
+  gate.resize(gridSize, gridSize);
   
   for(int i = 0; i < 10; i++) { // idle
     idle[i] = loadImage("charSprite/idle" + i + ".png");
@@ -117,7 +124,7 @@ void loadImages() {
 }
 
 void loadWorld(PImage img) {
-  world = new FWorld(-2000, -2000, 2000, 2000);
+  world = new FWorld(-4000, -4000, 4000, 4000);
   world.setGravity(0, 900);
   
   // load map
@@ -154,8 +161,16 @@ void loadWorld(PImage img) {
         world.add(b);
       }
       
+      else if (c == brown) { // button plate
+        FButtonPlate bi = new FButtonPlate(x*gridSize, y*gridSize);
+        terrain.add(bi);
+        world.add(bi);
+      }
+      
       else if (c == pink) { // gate
-        
+        FGate g = new FGate(x*gridSize, y*gridSize);
+        terrain.add(g);
+        world.add(g);
       }
       
       else if (c == blue) { // next level
