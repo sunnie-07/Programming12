@@ -5,6 +5,7 @@ void keyPressed() {
   if (key == 'D' || key == 'd') dkey = true;
   if (key == 'Q' || key == 'q') qkey = true;
   if (key == 'E' || key == 'e') ekey = true;
+  if (key == 'Z' || key == 'z') zkey = true;
 }
 
 void keyReleased() {
@@ -14,4 +15,5 @@ void keyReleased() {
   if (key == 'D' || key == 'd') dkey = false;
   if (key == 'Q' || key == 'q') qkey = false;
   if (key == 'E' || key == 'e') ekey = false;
+  if (key == 'Z' || key == 'z') zkey = false;
 }

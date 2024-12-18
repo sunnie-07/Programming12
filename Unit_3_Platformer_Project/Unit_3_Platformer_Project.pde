@@ -23,6 +23,11 @@ color pink = #ed79e5;
 color blue = #00b7ef;
 color green = #22b14c;
 color brown = #9e733f;
+color yellow = #ffeb12;
+color purple = #9914ff;
+color orange = #f06c1f;
+color lime = #00f088;
+color darkBlue = #002aff;
 
 // TEXT VARIABLES
 PFont pixel;
@@ -34,58 +39,67 @@ PImage[] run;
 PImage[] jump;
 PImage[] action;
 PImage life;
+PImage heartBox;
 
 // TERRAIN VARIABLES
 ArrayList<FGameObject> terrain;
 PImage grass, mushGround, stone, vine;
-PImage buttonOn, buttonOff, gate;
+PImage buttonOn, buttonOff, gate, checkpoint;
 
 // ENEMY VARIABLES
 ArrayList<FGameObject> enemies;
+PImage[] bat, skeleton;
+PImage knifeImg;
 
 // BACKGROUND IMAGE
 PImage backgroundImg;
 
 // MAP VARIABLES
-PImage map;
+PImage[] map;
+int numMaps = 2;
+int mapIndex = 0;
 int gridSize = 32;
 float zoom = 2;
-
-// MAP 1 PUZZLES
 int buttonPressed = 3;
 
 // KEYBOARD VARIABLES
-boolean wkey, akey, skey, dkey, qkey, ekey;
+boolean wkey, akey, skey, dkey, qkey, ekey, zkey;
 
 void setup() {
-  size(1000, 700);
+  size(800, 800);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   mode = GAME;
   
   Fisica.init(this);
   
-  // act lists
-  terrain = new ArrayList<FGameObject>();
-  enemies = new ArrayList<FGameObject>();
-  
   // player animations
   idle = new PImage[10];
   run = new PImage[4];
   jump = new PImage[1];
   
+  // enemy animations
+  bat = new PImage[8];
+  skeleton = new PImage[6];
+  
+  // map variables
+  map = new PImage[numMaps];
+  
   // initialize font
   pixel = createFont("Daydream.ttf", 80);
   
   loadImages();
-  loadWorld(map);
+  loadWorld(map[mapIndex]);
   loadPlayer();
 }
 
 //===========================================================================================
 
 void loadImages() {
-  map = loadImage("map.png");
+  for(int i = 0; i < numMaps; i++) {
+    map[i] = loadImage("map" + i + ".png");
+  }
+  
   backgroundImg = loadImage("BG.png");
   backgroundImg.resize(2500, 1050);
   
@@ -98,6 +112,9 @@ void loadImages() {
   buttonOn = loadImage("buttonOn.png");
   buttonOff = loadImage("buttonOff.png");
   gate = loadImage("gate.png");
+  checkpoint = loadImage("checkpoint.png");
+  knifeImg = loadImage("knife.png");
+  heartBox = loadImage("heartBox.png");
   
   grass.resize(gridSize, gridSize);
   mushGround.resize(gridSize, gridSize);
@@ -106,6 +123,9 @@ void loadImages() {
   buttonOn.resize(gridSize, gridSize);
   buttonOff.resize(gridSize, gridSize);
   gate.resize(gridSize, gridSize);
+  checkpoint.resize(gridSize, gridSize);
+  knifeImg.resize(20, 20);
+  heartBox.resize(gridSize, gridSize);
   
   for(int i = 0; i < 10; i++) { // idle
     idle[i] = loadImage("charSprite/idle" + i + ".png");
@@ -121,11 +141,25 @@ void loadImages() {
   jump[0].resize(gridSize, gridSize);
   
   action = idle;
+  
+  // enemies
+  for(int i = 0; i < 8; i++) {
+    bat[i] = loadImage("bat/frame_" + i + "_delay-0.04s.gif");
+    bat[i].resize(gridSize, gridSize);
+  }
+  
+  for(int i = 0; i < 6; i++) {
+    skeleton[i] = loadImage("skeleton/frame_" + i + "_delay-0.1s.gif");
+    skeleton[i].resize(gridSize, gridSize);
+  }
 }
 
 void loadWorld(PImage img) {
   world = new FWorld(-4000, -4000, 4000, 4000);
   world.setGravity(0, 900);
+  
+  terrain = new ArrayList<FGameObject>();
+  enemies = new ArrayList<FGameObject>();
   
   // load map
   for (int y = 0; y < img.height; y++) {
@@ -173,8 +207,10 @@ void loadWorld(PImage img) {
         world.add(g);
       }
       
-      else if (c == blue) { // next level
-        
+      else if (c == blue) { // checkpoint
+        FCheckpoint cp = new FCheckpoint(x*gridSize, y*gridSize);
+        terrain.add(cp);
+        world.add(cp);
       }
       
       else if (c == green) { // vine
@@ -182,6 +218,41 @@ void loadWorld(PImage img) {
         b.setSensor(true);
         b.setName("vine");
         world.add(b);
+      }
+      
+      else if (c == yellow) { // invisible wall
+        b.setStatic(true);
+        b.setNoFill();
+        b.setNoStroke();
+        b.setName("invisibleWall");
+        world.add(b);
+      }
+      
+      else if (c == orange) { // floating block
+        b.setStatic(true);
+        b.setNoFill();
+        b.setNoStroke();
+        b.setFriction(0);
+        b.setName("floatBlock");
+        world.add(b);
+      }
+      
+      else if (c == purple) { // bat enemy
+        FBat bt = new FBat(x*gridSize, y*gridSize);
+        enemies.add(bt);
+        world.add(bt);
+      }
+      
+      else if (c == lime) { // heart box
+        FHeartBox hb = new FHeartBox(x*gridSize, y*gridSize);
+        terrain.add(hb);
+        world.add(hb);
+      }
+      
+      else if (c == darkBlue) { // skeleton enemy
+        FSkeleton st = new FSkeleton(x*gridSize, y*gridSize);
+        enemies.add(st);
+        world.add(st);
       }
     }
   }

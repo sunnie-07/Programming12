@@ -3,6 +3,7 @@ class FPlayer extends FGameObject {
   int frame;
   int direction;
   int lives;
+  float timer;
   
   // constructor
   FPlayer() {
@@ -14,6 +15,7 @@ class FPlayer extends FGameObject {
     frame = 0;
     direction = R;
     lives = 3;
+    timer = 100;
   }
   
   // behavior functions
@@ -48,7 +50,15 @@ class FPlayer extends FGameObject {
   }
   
   void collisions() {
-    if (lives == 0) {
+    timer--;
+    if (isTouching("knife") && timer < 0) {
+      lives--;
+      timer = 100;
+    }
+    
+    else if (isTouching("skeleton") && timer < 0) {
+      lives--;
+      timer = 100;
     }
   }
   

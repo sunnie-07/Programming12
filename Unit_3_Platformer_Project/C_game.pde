@@ -4,7 +4,9 @@ void game() {
   actWorld();
   drawLives();
   
-  println(buttonPressed);
+  if (player.lives == 0) {
+    mode = GAMEOVER;
+  }
 }
 
 void gameClicks() {
@@ -26,14 +28,25 @@ void actWorld() {
 }
 
 void drawBG() {
-  float xoff = map(player.getX(), 0, 64*gridSize, 550, 0);
-  float yoff = map(player.getY(), 0, 64*gridSize, 550, 0);
-  image(backgroundImg, int(xoff-800), int(yoff-400));
+  if (zkey) {
+    image(backgroundImg, 0, 0);
+  } else {
+    float xoff = map(player.getX(), 0, 64*gridSize, 550, 0);
+    float yoff = map(player.getY(), 0, 64*gridSize, 550, 0);
+    image(backgroundImg, int(xoff-800), int(yoff-400));
+  }
 }
 
 void drawWorld() {
   pushMatrix();
-  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
+  if (zkey) {
+    zoom = 0.397;
+    translate(0,0);
+  }
+  else {
+    zoom = 2;
+    translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
+  }
   scale(zoom);
   world.step();
   world.draw();
