@@ -13,7 +13,7 @@ final int GAME = 2;
 final int PAUSE = 3;
 final int GAMEOVER = 4;
 
-// COLOR VARIABLES
+// TERRAIN COLOR VARIABLES
 color white = #FFFFFF;
 color black = #000000;
 color darkGreen = #223440;
@@ -29,8 +29,17 @@ color orange = #f06c1f;
 color lime = #00f088;
 color darkBlue = #002aff;
 
+// COLOR PALETTE
+color darkRed = #A23F30;
+
 // TEXT VARIABLES
 PFont pixel;
+
+// GIF VARIABLES
+Gif introGif;
+
+// BUTTON VARIABLES
+Button startBt, instru;
 
 // PLAYER VARIABLES
 FPlayer player;
@@ -52,7 +61,7 @@ PImage[] bat, skeleton;
 PImage knifeImg;
 
 // BACKGROUND IMAGE
-PImage backgroundImg;
+PImage backgroundImg, mushrooms;
 
 // MAP VARIABLES
 PImage[] map;
@@ -69,9 +78,17 @@ void setup() {
   size(800, 800);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
-  mode = GAME;
+  mode = INTRO;
   
   Fisica.init(this);
+  
+  // initialize gifs
+  introGif = new Gif("introGif/frame_", "_delay-0.12s.gif", 12, 5, -350, 0, 1200, 800);
+  
+  // initialize buttons
+  pixel = createFont("Daydream.ttf", 80);
+  startBt = new Button("START", width/2-150, height-110, 150, 70, darkRed, black);
+  instru = new Button("RULES", width/2+150, height-110, 150, 70, darkRed, black);
   
   // player animations
   idle = new PImage[10];
@@ -84,9 +101,6 @@ void setup() {
   
   // map variables
   map = new PImage[numMaps];
-  
-  // initialize font
-  pixel = createFont("Daydream.ttf", 80);
   
   loadImages();
   loadWorld(map[mapIndex]);
@@ -102,6 +116,7 @@ void loadImages() {
   
   backgroundImg = loadImage("BG.png");
   backgroundImg.resize(2500, 1050);
+  mushrooms = loadImage("mushrooms.png");
   
   life = loadImage("gameheart.png");
   

@@ -115,7 +115,7 @@ class Button {
     } else {
       fill(highlight); 
     }
-    textSize(w/14);
+    textSize(w/7);
     text(text, x, y-3.2);
   }
   
