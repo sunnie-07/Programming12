@@ -39,7 +39,7 @@ PFont pixel;
 Gif introGif;
 
 // BUTTON VARIABLES
-Button startBt, instru;
+Button startBt, instru, instruReturn;
 
 // PLAYER VARIABLES
 FPlayer player;
@@ -89,6 +89,7 @@ void setup() {
   pixel = createFont("Daydream.ttf", 80);
   startBt = new Button("START", width/2-150, height-110, 150, 70, darkRed, black);
   instru = new Button("RULES", width/2+150, height-110, 150, 70, darkRed, black);
+  instruReturn = new Button("RETURN", 135, 172, 102, 35, black, darkRed);
   
   // player animations
   idle = new PImage[10];
@@ -191,7 +192,7 @@ void loadWorld(PImage img) {
       
       if (c == black) { // grass ground
         b.attachImage(grass);
-        b.setFriction(2);
+        b.setFriction(2.5);
         b.setName("grass");
         world.add(b);
       }
@@ -205,13 +206,13 @@ void loadWorld(PImage img) {
       
       else if (c == grey) { // stone
         b.attachImage(stone);
-        b.setFriction(2);
+        b.setFriction(2.5);
         b.setName("stone");
         world.add(b);
       }
       
       else if (c == brown) { // button plate
-        FButtonPlate bi = new FButtonPlate(x*gridSize, y*gridSize);
+        FButton bi = new FButton(x*gridSize, y*gridSize);
         terrain.add(bi);
         world.add(bi);
       }
@@ -259,7 +260,7 @@ void loadWorld(PImage img) {
       }
       
       else if (c == lime) { // heart box
-        FHeartBox hb = new FHeartBox(x*gridSize, y*gridSize);
+        FLifeBox hb = new FLifeBox(x*gridSize, y*gridSize);
         terrain.add(hb);
         world.add(hb);
       }

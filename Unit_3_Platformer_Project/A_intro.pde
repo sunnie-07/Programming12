@@ -12,9 +12,6 @@ void intro() {
 }
 
 void introClicks() {
-  if(startBt.overRect()) {
-    mode = GAME;
-  } else if (instru.overRect()) {
-    mode = INSTRUCTIONS;
-  }
+  if(startBt.overRect()) mode = GAME; 
+  else if (instru.overRect()) mode = INSTRUCTIONS;
 }

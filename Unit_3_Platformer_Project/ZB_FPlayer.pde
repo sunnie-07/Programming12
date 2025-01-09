@@ -15,7 +15,7 @@ class FPlayer extends FGameObject {
     frame = 0;
     direction = R;
     lives = 3;
-    timer = 100;
+    timer = 200;
   }
   
   // behavior functions
@@ -53,12 +53,12 @@ class FPlayer extends FGameObject {
     timer--;
     if (isTouching("knife") && timer < 0) {
       lives--;
-      timer = 100;
+      timer = 200;
     }
     
     else if (isTouching("skeleton") && timer < 0) {
       lives--;
-      timer = 100;
+      timer = 200;
     }
   }
   
