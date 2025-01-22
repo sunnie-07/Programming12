@@ -3,14 +3,17 @@ void game() {
   drawWorld();
   actWorld();
   drawLives();
+  pauseBt.show();
   
   if (player.lives == 0) {
-    mode = GAMEOVER;
+    player.setPosition(gridSize+5, 600);
+    player.setVelocity(0, 0);
+    player.lives = 3;
   }
 }
 
 void gameClicks() {
-  
+  if(pauseBt.overRect()) mode = PAUSE;
 }
 
 //===========================================================================================

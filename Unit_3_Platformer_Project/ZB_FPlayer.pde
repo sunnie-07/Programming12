@@ -4,27 +4,27 @@ class FPlayer extends FGameObject {
   int direction;
   int lives;
   float timer;
-  
+
   // constructor
   FPlayer() {
     super();
     setName("player");
     setPosition(gridSize+5, 600);
     setRotatable(false);
-    
+
     frame = 0;
     direction = R;
     lives = 3;
     timer = 200;
   }
-  
+
   // behavior functions
   void act() {
     input();
     collisions();
     animate();
   }
-  
+
   void input() {
     float vx = getVelocityX();
     float vy = getVelocityY();
@@ -48,23 +48,30 @@ class FPlayer extends FGameObject {
       action = jump;
     }
   }
-  
+
   void collisions() {
     timer--;
-    if (isTouching("knife") && timer < 0) {
-      lives--;
-      timer = 200;
-    }
-    
-    else if (isTouching("skeleton") && timer < 0) {
-      lives--;
-      timer = 200;
+    if (timer < 0) {
+      if (isTouching("knife")) {
+        lives--;
+        timer = 200;
+      }
+
+      if (isTouching("skeleton")) {
+        lives--;
+        timer = 200;
+      }
+
+      if (isTouching("water")) {
+        lives--;
+        timer = 200;
+      }
     }
   }
-  
+
   void animate() {
-    if(frame >= action.length) frame = 0;
-    if(frameCount % 9 == 0) {
+    if (frame >= action.length) frame = 0;
+    if (frameCount % 9 == 0) {
       if (direction == R) attachImage(action[frame]);
       else if (direction == L) attachImage(reverseImage(action[frame]));
       frame++;

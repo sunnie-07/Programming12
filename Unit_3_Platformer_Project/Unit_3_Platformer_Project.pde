@@ -28,6 +28,9 @@ color purple = #9914ff;
 color orange = #f06c1f;
 color lime = #00f088;
 color darkBlue = #002aff;
+color magenta = #e63cc9;
+color turquoise = #40edbc;
+color lightBrown = #d1b79b;
 
 // COLOR PALETTE
 color darkRed = #A23F30;
@@ -39,7 +42,7 @@ PFont pixel;
 Gif introGif;
 
 // BUTTON VARIABLES
-Button startBt, instru, instruReturn;
+Button startBt, instru, instruReturn, pauseBt, pauseReturn;
 
 // PLAYER VARIABLES
 FPlayer player;
@@ -52,8 +55,9 @@ PImage heartBox;
 
 // TERRAIN VARIABLES
 ArrayList<FGameObject> terrain;
-PImage grass, mushGround, stone, vine;
-PImage buttonOn, buttonOff, gate, checkpoint;
+PImage grass, mushGround, stone, vine, water;
+PImage buttonOn, buttonOff, gate, checkpoint, ladder;
+PImage npcCat1, npcCat2;
 
 // ENEMY VARIABLES
 ArrayList<FGameObject> enemies;
@@ -90,6 +94,8 @@ void setup() {
   startBt = new Button("START", width/2-150, height-110, 150, 70, darkRed, black);
   instru = new Button("RULES", width/2+150, height-110, 150, 70, darkRed, black);
   instruReturn = new Button("RETURN", 135, 172, 102, 35, black, darkRed);
+  pauseBt = new Button("PAUSE", width-68, 32, 102, 35, darkRed, black);
+  pauseReturn = new Button("RETURN", width/2-171, height/2-100, 85, 28, black, darkRed);
   
   // player animations
   idle = new PImage[10];
@@ -125,23 +131,27 @@ void loadImages() {
   mushGround = loadImage("mushGround.png");
   stone = loadImage("stone.png");
   vine = loadImage("vine.png");
+  water = loadImage("water.png");
   buttonOn = loadImage("buttonOn.png");
   buttonOff = loadImage("buttonOff.png");
   gate = loadImage("gate.png");
   checkpoint = loadImage("checkpoint.png");
   knifeImg = loadImage("knife.png");
   heartBox = loadImage("heartBox.png");
+  ladder = loadImage("ladder.png");
   
   grass.resize(gridSize, gridSize);
   mushGround.resize(gridSize, gridSize);
   stone.resize(gridSize, gridSize);
   vine.resize(gridSize, gridSize);
+  water.resize(gridSize, gridSize);
   buttonOn.resize(gridSize, gridSize);
   buttonOff.resize(gridSize, gridSize);
   gate.resize(gridSize, gridSize);
   checkpoint.resize(gridSize, gridSize);
   knifeImg.resize(20, 20);
   heartBox.resize(gridSize, gridSize);
+  ladder.resize(gridSize, gridSize);
   
   for(int i = 0; i < 10; i++) { // idle
     idle[i] = loadImage("charSprite/idle" + i + ".png");
@@ -168,6 +178,12 @@ void loadImages() {
     skeleton[i] = loadImage("skeleton/frame_" + i + "_delay-0.1s.gif");
     skeleton[i].resize(gridSize, gridSize);
   }
+  
+  npcCat1 = loadImage("npcCat1.png");
+  npcCat2 = loadImage("npcCat2.png");
+  
+  npcCat1.resize(gridSize, gridSize);
+  npcCat2.resize(gridSize, gridSize);
 }
 
 void loadWorld(PImage img) {
@@ -181,9 +197,6 @@ void loadWorld(PImage img) {
   for (int y = 0; y < img.height; y++) {
     for (int x = 0; x < img.width; x++) {
       color c = img.get(x, y);
-      color s = img.get(x, y+1);
-      color w = img.get(x-1, y);
-      color e = img.get(x+1, y);
       
       FBox b = new FBox(gridSize, gridSize);
       b.setPosition(x*gridSize, y*gridSize);
@@ -209,6 +222,19 @@ void loadWorld(PImage img) {
         b.setFriction(2.5);
         b.setName("stone");
         world.add(b);
+      }
+      
+      else if (c == magenta) { // water
+        b.attachImage(water);
+        b.setSensor(true);
+        b.setName("water");
+        world.add(b);
+      }
+      
+      else if (c == turquoise) { // ladder
+        FLadder l = new FLadder(x*gridSize, y*gridSize);
+        terrain.add(l);
+        world.add(l);
       }
       
       else if (c == brown) { // button plate
@@ -259,7 +285,7 @@ void loadWorld(PImage img) {
         world.add(bt);
       }
       
-      else if (c == lime) { // heart box
+      else if (c == lime) { // life box
         FLifeBox hb = new FLifeBox(x*gridSize, y*gridSize);
         terrain.add(hb);
         world.add(hb);
@@ -269,6 +295,12 @@ void loadWorld(PImage img) {
         FSkeleton st = new FSkeleton(x*gridSize, y*gridSize);
         enemies.add(st);
         world.add(st);
+      }
+      
+      else if (c == lightBrown) { // npc cat
+        FCat ct = new FCat(x*gridSize, y*gridSize);
+        terrain.add(ct);
+        world.add(ct);
       }
     }
   }

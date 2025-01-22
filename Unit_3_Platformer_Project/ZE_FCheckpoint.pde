@@ -7,23 +7,25 @@ class FCheckpoint extends FGameObject {
     setStatic(true);
     attachImage(checkpoint);
   }
-  
+
   // behaviour functions
   void act() {
     nextLevel();
   }
-  
+
   void nextLevel() {
     if (isTouching("player")) {
-      mapIndex++;
-      loadWorld(map[mapIndex]);
-      
-      world.add(player);
-      player.setPosition(gridSize+5, 600);
-      player.setVelocity(0, 0);
-      
-      buttonPressed = 3;
-      player.lives = 3;
+      if (mapIndex < 1) {
+        mapIndex++;
+        loadWorld(map[mapIndex]);
+
+        world.add(player);
+        player.setPosition(gridSize+5, 600);
+        player.setVelocity(0, 0);
+        player.lives = 3;
+
+        buttonPressed = 3;
+      } else if (mapIndex == 1) mode = GAMEOVER;
     }
   }
 }
