@@ -16,8 +16,11 @@ PImage wood, brick;
 int gridSize;
 PImage map;
 
+// GAME OBJECT VARIABLES
+ArrayList<GameObject> objects;
+
 // KEYBOARD VARIABLES
-boolean wkey, akey, skey, dkey;
+boolean wkey, akey, skey, dkey, spacekey;
 
 // CAMERA VARIABLES
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ;
@@ -32,7 +35,7 @@ void setup() {
   wkey = akey = skey = dkey = false;
 
   eyeX = width/2;
-  eyeY = 8.4*height/10;
+  eyeY = 8.5*height/10;
   eyeZ = height/2;
   focusX = width/2;
   focusY = height/2;
@@ -58,88 +61,38 @@ void setup() {
   // initialize texture
   wood = loadImage("wood.png");
   brick = loadImage("brick.png");
+  
+  // game objects
+  objects = new ArrayList();
 }
 
 void draw() {
   background(0);
+  
+  pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
+  
   drawFocalPoint();
-  controlCamera();
-  drawFloor(-2000, 2000, height, 100); // floor
-  drawFloor(-2000, 2000, height-gridSize*3, 100); // ceiling
+  move();
+  drawFloor(-2000, 2000, height, gridSize); // floor
+  drawFloor(-2000, 2000, height-gridSize*4, gridSize); // ceiling
   drawMap();
-}
-
-void drawMap() {
-  for (int x = 0; x < map.width; x++) {
-    for (int y = 0; y < map.height; y++) {
-      color c = map.get(x, y);
-      if (c == black) { // wood plank
-        texturedCube(x*gridSize-2000, height-gridSize, y*gridSize-2000, wood, gridSize);
-        texturedCube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, wood, gridSize);
-        texturedCube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, wood, gridSize);
-      }
-      else if (c == dullBlue) { // red brick
-        texturedCube(x*gridSize-2000, height-gridSize, y*gridSize-2000, brick, gridSize);
-        texturedCube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
-        texturedCube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, brick, gridSize);
-      }
-    }
+  
+  // game objects
+  int i = 0;
+  while (i < objects.size()) {
+    GameObject obj = objects.get(i);
+    obj.act();
+    obj.show();
+    if (obj.lives == 0) objects.remove(i);
+    else i++;
   }
-}
-
-void drawFloor(float x, float y, float z, float n) {
-  stroke(255);
-  for (int i = -2000; i <= 2000; i += n) {
-    line(i, z, x, i, z, y);
-    line(x, z, i, y, z, i);
+  
+  if (spacekey) {
+    Snowball b = new Snowball();
+    objects.add(b);
   }
-}
-
-void drawFocalPoint() {
-  pushMatrix();
-  translate(focusX, focusY, focusZ);
-  sphere(5);
-  popMatrix();
-}
-
-void controlCamera() {
-  if (wkey) {
-    eyeX += cos(LRHeadAngle)*12;
-    eyeZ += sin(LRHeadAngle)*12;
-  }
-  if (skey) {
-    eyeX -= cos(LRHeadAngle)*12;
-    eyeZ -= sin(LRHeadAngle)*12;
-  }
-  if (akey) {
-    eyeX -= cos(LRHeadAngle + PI/2)*12;
-    eyeZ -= sin(LRHeadAngle + PI/2)*12;
-  }
-  if (dkey) {
-    eyeX += cos(LRHeadAngle + PI/2)*12;
-    eyeZ += sin(LRHeadAngle + PI/2)*12;
-  }
-
-  if (skipFrame == false) {
-    LRHeadAngle += (mouseX - pmouseX)*0.008;
-    UDHeadAngle += (mouseY - pmouseY)*0.008;
-  }
-
-  if (UDHeadAngle > PI/2.5) UDHeadAngle = PI/2.5;
-  if (UDHeadAngle < -PI/2.5) UDHeadAngle = -PI/2.5;
-
-  focusX = eyeX + cos(LRHeadAngle)*300;
-  focusZ = eyeZ + sin(LRHeadAngle)*300;
-  focusY = eyeY + tan(UDHeadAngle)*300;
-
-  if (mouseX < 2) {
-    rbt.mouseMove(width-3, mouseY);
-    skipFrame = true;
-  } else if (mouseX > width-2) {
-    rbt.mouseMove(3, mouseY);
-    skipFrame = true;
-  } else {
-    skipFrame = false;
-  }
+  
+  Rain r = new Rain();
+  objects.add(r);
 }
